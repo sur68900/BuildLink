@@ -31,6 +31,7 @@ class Builder {
     fun appsKey(devKey: String) = apply { this.devKey = devKey }
     fun sub10(sub10: String) = apply { this.sub10 = sub10 }
     fun notId(notId: String) = apply { this.notId = notId }
+    fun logger(logger: (Throwable) -> Unit) = apply { this.logger = logger }
     fun getAppsId(context: Context) = AppsFlyerLib.getInstance().getAppsFlyerUID(context)
 
     suspend fun buildLink() = try {
