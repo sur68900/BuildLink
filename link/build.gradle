@@ -37,7 +37,7 @@ afterEvaluate {
 
                 groupId = 'com.github.sur68900'
                 artifactId = 'link_lib'
-                version = '1.0'
+                version = '1.1'
             }
         }
     }
