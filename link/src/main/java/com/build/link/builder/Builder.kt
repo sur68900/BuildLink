@@ -53,7 +53,7 @@ class Builder {
 
     private fun getAttr() = sdkRepository.getAttr(notId)
         .replace(Regex("(?<=$SUB10=)[^&]*"), sub10)
-        .replace(Regex("(?<=$notId=)[^&]*"), notId)
+        .replace(Regex("(?<=$NOT_ID=)[^&]*"), notId)
 
     private suspend fun getDevice() = sdkRepository.getDeviceInfo(
         activity,
