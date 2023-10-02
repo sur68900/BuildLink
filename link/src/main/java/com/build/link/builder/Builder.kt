@@ -34,15 +34,20 @@ class Builder {
     fun logger(logger: (Throwable) -> Unit) = apply { this.logger = logger }
     fun getAppsId(context: Context) = AppsFlyerLib.getInstance().getAppsFlyerUID(context)
 
-    suspend fun buildLink() = try {
-        sdkRepository.setupApps(activity, devKey)
-        sdkRepository.setDeep(sdkRepository.getDeep(fbId, fbToken, activity, logger))
-        val validLink = domain + getDevice() + getAttr()
-        sendTag(sdkRepository.getAfUserId(), sdkRepository.getPush())
-        BuildResult.Success(validLink)
-    } catch (e: Exception) {
-        logger(e)
-        BuildResult.Error(e)
+    suspend fun buildLink(link: String? = null): BuildResult {
+        return try {
+            if (link != null) return BuildResult.Success(getAttr(link))
+
+            sdkRepository.setupApps(activity, devKey)
+            sdkRepository.setDeep(sdkRepository.getDeep(fbId, fbToken, activity, logger))
+            val validLink = domain + getDevice() + getAttr()
+            sendTag(sdkRepository.getAfUserId(), sdkRepository.getPush())
+
+            BuildResult.Success(validLink)
+        } catch (e: Exception) {
+            logger(e)
+            BuildResult.Error(e)
+        }
     }
 
     private fun sendTag(userId: String, push: String?) {
@@ -52,6 +57,10 @@ class Builder {
     }
 
     private fun getAttr() = sdkRepository.getAttr(notId)
+        .replace(Regex("(?<=$SUB10=)[^&]*"), sub10)
+        .replace(Regex("(?<=$NOT_ID=)[^&]*"), notId)
+
+    private fun getAttr(link: String) = link
         .replace(Regex("(?<=$SUB10=)[^&]*"), sub10)
         .replace(Regex("(?<=$NOT_ID=)[^&]*"), notId)
 
