@@ -58,7 +58,7 @@ class AppsFlyerSdk {
         var defaultSubs = ArrayList<Sub>()
         var push = Sub(PUSH, null)
         for (index in 1..MIN_SUBS) {
-            if (index == 1) defaultSubs.add(Sub("$SUB$index", NULL)) else defaultSubs.add(Sub("$SUB$index", ""))
+            if (index == 1) defaultSubs.add(Sub("$SUB$index", CAMPAIGN)) else defaultSubs.add(Sub("$SUB$index", ""))
         }
         if (campaign != NULL && campaign != "" && campaign != NONE) {
             val subsCampaign = campaign.split(MYAPP).last().split("_").mapIndexed { index, s ->
