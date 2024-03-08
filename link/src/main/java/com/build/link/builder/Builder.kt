@@ -34,6 +34,20 @@ class Builder {
     fun logger(logger: (Throwable) -> Unit) = apply { this.logger = logger }
     fun getAppsId(context: Context) = AppsFlyerLib.getInstance().getAppsFlyerUID(context)
 
+    suspend fun buildLinkOld() : BuildResult{
+        return try {
+            sdkRepository.setupApps(activity, devKey)
+            sdkRepository.setDeep(sdkRepository.getDeep(fbId, fbToken, activity, logger))
+            val validLink = domain + getDevice() + sdkRepository.getAttr()
+            sendTag(sdkRepository.getAfUserId(), sdkRepository.getPush())
+
+            BuildResult.Success(validLink)
+        } catch (e: Exception) {
+            logger(e)
+            BuildResult.Error(e)
+        }
+    }
+
     suspend fun buildLink(link: String? = null): BuildResult {
         return try {
             if (link != null) return BuildResult.Success(getAttr(link))

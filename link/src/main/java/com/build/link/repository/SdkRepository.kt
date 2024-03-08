@@ -14,7 +14,7 @@ class SdkRepository {
     private val device = DeviceInfo()
 
     suspend fun setupApps(activity: Activity, devKey: String) = apps.setupApps(activity, devKey)
-    fun getAttr(notId: String?) = apps.getAttributes(notId)
+    fun getAttr(notId: String? = null) = apps.getAttributes(notId)
     fun setDeep(deep: String?) = apps.setDeep(deep)
     fun getPush() = apps.getPush()
 

@@ -44,7 +44,7 @@ class AppsFlyerSdk {
 
     fun getAttributes(notId: String?): String {
         val validSb = StringBuilder()
-        result[NOT_ID] = notId ?: NULL
+        notId?.let { result[NOT_ID] = notId }
         result.forEach { (key, value) -> validSb.append("$key=${URLEncoder.encode(value, UTF8)}&") }
         return validSb.toString().dropLast(1)
     }
